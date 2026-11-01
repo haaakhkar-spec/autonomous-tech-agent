@@ -1,60 +1,640 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>الوكيل التقني المستقل</title><style>
-:root{--bg:#16191d;--pn:#22262c;--ln:#333a43;--tx:#eef1f4;--dm:#9aa4b0;--ac:#5b8def}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);
-font:16px/1.8 -apple-system,BlinkMacSystemFont,"SF Arabic","Segoe UI",Tahoma,sans-serif;
-padding:24px;max-width:760px;margin:0 auto}
-h1{font-size:26px;margin:0 0 6px}h2{font-size:18px;margin:28px 0 10px;color:var(--ac)}
-p{color:var(--dm)}code,pre{font:13px/1.7 ui-monospace,Menlo,monospace;direction:ltr;text-align:left;
-display:block;background:#12151a;border:1px solid var(--ln);border-radius:10px;padding:12px;overflow:auto}
-code{display:inline;padding:2px 6px}
-a.b{display:inline-block;background:var(--ac);color:#fff;text-decoration:none;font-weight:700;
-padding:13px 22px;border-radius:12px;margin:6px 6px 6px 0}
-a.s{background:var(--pn);border:1px solid var(--ln);color:var(--tx);font-weight:400}
-.w{background:var(--pn);border:1px solid var(--ln);border-radius:14px;padding:16px;margin:14px 0}
-table{width:100%;border-collapse:collapse;font-size:14px}
-td,th{border:1px solid var(--ln);padding:8px 10px;text-align:right}
-th{background:var(--pn)}.y{color:#3fbf7f}.n{color:#e0645f}
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1c1f24"><title>الوكيل التقني المستقل</title>
+<style>
+:root{--bg:#16191d;--bg2:#1c1f24;--pn:#22262c;--pn2:#282d34;--ln:#333a43;--tx:#eef1f4;
+--dm:#9aa4b0;--ac:#5b8def;--ok:#3fbf7f;--er:#e0645f;--wn:#e0a34a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.7 -apple-system,BlinkMacSystemFont,
+"SF Arabic","Segoe UI",Tahoma,sans-serif;display:flex;flex-direction:column;overscroll-behavior:none}
+.v{display:none;flex-direction:column;height:100%;min-height:0}.v.on{display:flex}
+header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;
+background:var(--bg2);border-bottom:1px solid var(--ln);position:sticky;top:0;z-index:5}
+.b{background:var(--pn2);color:var(--tx);border:1px solid var(--ln);border-radius:12px;
+padding:8px 14px;font:600 14px inherit;cursor:pointer}
+.b:active{transform:scale(.97)}.b.p{background:var(--ac);border-color:var(--ac);color:#fff}
+.b:disabled{opacity:.5}
+.t{flex:1;text-align:center;font-weight:700;font-size:15px}
+.t small{display:block;font-weight:400;color:var(--dm);font-size:11px}
+#m{flex:1;overflow-y:auto;padding:16px 14px 8px;display:flex;flex-direction:column;
+gap:12px;min-height:0;-webkit-overflow-scrolling:touch}
+.g{max-width:88%;padding:11px 14px;border-radius:16px;white-space:pre-wrap;word-break:break-word}
+.g.u{align-self:flex-start;background:var(--ac);color:#fff;border-bottom-right-radius:5px}
+.g.a{align-self:flex-end;background:var(--pn);border:1px solid var(--ln);border-bottom-left-radius:5px}
+.g.s{align-self:center;color:var(--dm);font-size:13px;text-align:center;max-width:96%}
+.g img,.g video{max-width:100%;border-radius:10px;margin-top:6px;display:block}
+.g code{background:#12151a;padding:2px 6px;border-radius:6px;font:13px ui-monospace,Menlo,monospace;direction:ltr}
+.g pre{background:#12151a;border:1px solid var(--ln);border-radius:10px;padding:10px;overflow:auto;
+font:12.5px/1.6 ui-monospace,Menlo,monospace;direction:ltr;text-align:left;margin:8px 0}
+.tt{font-size:12.5px;color:var(--dm);align-self:flex-end}
+.dt{width:6px;height:6px;border-radius:50%;background:var(--wn);display:inline-block;animation:p 1s infinite}
+.dt.ok{background:var(--ok);animation:none}.dt.bad{background:var(--er);animation:none}
+@keyframes p{50%{opacity:.25}}
+.cp{background:var(--bg2);border-top:1px solid var(--ln);padding:8px 12px calc(env(safe-area-inset-bottom) + 12px)}
+.ar{display:flex;gap:8px;padding-bottom:8px;overflow-x:auto}
+.ch{border:1px solid var(--ln);border-radius:10px;padding:4px 8px;font-size:12px;color:var(--dm);
+white-space:nowrap;background:var(--pn)}
+.ch button{background:none;border:0;color:var(--er);cursor:pointer}
+.ir{display:flex;gap:8px;align-items:flex-end}
+textarea{flex:1;resize:none;background:var(--pn);color:var(--tx);border:1px solid var(--ln);
+border-radius:14px;padding:11px 14px;font:inherit;font-size:15px;max-height:130px;min-height:46px;outline:none}
+textarea:focus{border-color:var(--ac)}
+.ib{width:46px;min-width:46px;height:46px;border-radius:14px;font-size:18px;display:grid;place-items:center}
+.dr{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:20}.dr.on{display:block}
+.dr .pl{position:absolute;top:0;right:0;bottom:0;width:min(86vw,360px);background:var(--bg2);
+border-left:1px solid var(--ln);display:flex;flex-direction:column;padding-top:calc(env(safe-area-inset-top) + 12px)}
+.dr h3{margin:0;padding:12px 16px;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.cl{flex:1;overflow-y:auto;padding:0 12px 12px}
+.cv{display:flex;gap:8px;align-items:center;background:var(--pn);border:1px solid var(--ln);
+border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.cv.on{border-color:var(--ac)}.cv .x{flex:1;overflow:hidden}
+.cv .x b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv .x small{color:var(--dm);font-size:11px}
+.cv .d{background:none;border:0;color:var(--er);font-size:16px;cursor:pointer;padding:4px}
+.lb{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px;min-height:0}
+.cd{background:var(--pn);border:1px solid var(--ln);border-radius:16px;overflow:hidden}
+.cd h3{margin:0;padding:11px 14px;font-size:13.5px;background:var(--pn2);border-bottom:1px solid var(--ln);
+display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.cd h3 span{font-size:11px;color:var(--dm);font-weight:400}
+pre.out{margin:0;padding:12px 14px;overflow:auto;max-height:38vh;font:12.5px/1.6 ui-monospace,Menlo,monospace;
+direction:ltr;text-align:left;background:#12151a;color:#cfe3ff;white-space:pre-wrap}
+textarea.c{width:100%;min-height:30vh;border:0;background:#12151a;color:#cfe3ff;
+font:12.5px/1.6 ui-monospace,Menlo,monospace;direction:ltr;text-align:left;padding:12px 14px;resize:vertical;outline:none}
+.rw{display:flex;gap:8px;padding:10px 12px;background:var(--pn2);border-top:1px solid var(--ln);
+flex-wrap:wrap;align-items:center}
+.ks{display:flex;flex-direction:column;gap:8px;padding:12px 14px}
+.ky{display:flex;align-items:center;gap:10px;background:#12151a;border:1px solid var(--ln);
+border-radius:10px;padding:8px 10px;font:12px ui-monospace,Menlo,monospace;direction:ltr;overflow:hidden}
+.ky .k{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ky .c2{font-size:11px;padding:4px 8px;border-radius:8px}
+.bd{font-size:11px;color:var(--dm);text-align:center;padding-bottom:10px}
+.f{width:100%;text-align:right}.l{direction:ltr;text-align:left}
+select,input{background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-radius:10px;
+padding:9px 12px;font:inherit;font-size:14px;outline:none}
+select:focus,input:focus{border-color:var(--ac)}
+.note{background:#1a2530;border:1px solid #2a4257;border-radius:12px;padding:12px 14px;
+font-size:13px;color:#bcd4e6;line-height:1.8}
+.note b{color:#e8f2fa}
+.warn{background:#2a1f1a;border-color:#573a2a;color:#e6cbb8}
+.ap .a{background:#12151a;border:1px solid var(--ln);border-radius:10px;padding:10px;margin-bottom:8px}
+.ap a{color:var(--ac);text-decoration:none;font-size:13px;word-break:break-all}
 </style></head><body>
-<h1>الوكيل التقني المستقل</h1>
-<p>وكيل ذاتي تقني: شات ذكي + مختبر مستقل + تنفيذ مهام + استضافة البرامج المولّدة.</p>
 
-<a class="b" href="https://codespaces.new/haaakhkar-spec/autonomous-tech-agent">🚀 شغّل الآن (Codespaces)</a>
-<a class="b s" href="https://github.com/haaakhkar-spec/autonomous-tech-agent">📦 الكود على GitHub</a>
+<section id="chat" class="v on"><header>
+<button class="b" id="labBtn">🧪 المختبر</button>
+<div class="t">الوكيل التقني المستقل<small id="subT">اكتب «نفذ» لبدء التنفيذ الكامل</small></div>
+<button class="b" id="convBtn" title="المحادثات المحفوظة">☰</button></header>
+<div id="m"></div>
+<div class="cp"><div class="ar" id="arw" style="display:none"></div>
+<div class="ir"><button class="b ib" id="pick" title="إرفاق صورة">📎</button>
+<textarea id="in" rows="1" placeholder="اكتب رسالتك… (كلمة السر: نفذ)"></textarea>
+<button class="b p ib" id="send">➤</button></div>
+<input type="file" id="fi" accept="image/*" multiple hidden></div></section>
 
-<div class="w">
-<h2>كيف تشغّله في ٣ خطوات</h2>
-<pre>1. اضغط «شغّل الآن» أعلاه وانتظر دقيقة
-2. في الطرفية: export LLM_API_KEY="مفتاحك" &amp;&amp; ./start.sh
-3. تبويب Ports ← المنفذ 8000 ← غيّر Visibility إلى Public</pre>
+<section id="lab" class="v"><header>
+<button class="b" id="back">← رجوع للشات</button>
+<div class="t">المختبر<small>لوحة التحكم</small></div></header>
+<div class="lb">
+
+<div class="note" id="setupNote">
+<b>البدء في دقيقة واحدة:</b><br>
+1. افتح «النموذج النشط» بالأسفل وأدخل مفتاح API (مجاني من Groq).<br>
+2. ارجع للشات واكتب مهمتك، ثم «نفذ».<br>
+كل شيء يعمل في متصفحك — المفتاح لا يُرسل لأي خادم غير مزوّد النموذج.
 </div>
 
-<h2>حقيقة مهمة</h2>
-<p>هذه الصفحة على GitHub Pages لأنها <b>صفحة ثابتة</b>. لكن التطبيق نفسه خادم Python،
-وGitHub Pages لا يشغّل Python:</p>
-<table>
-<tr><th>خدمة GitHub</th><th>التشغيل</th></tr>
-<tr><td>Pages</td><td class="n">ملفات ثابتة فقط</td></tr>
-<tr><td>Actions</td><td class="n">مؤقت، بلا رابط عام</td></tr>
-<tr><td>Codespaces</td><td class="y">يعمل + منفذ عام</td></tr>
-</table>
-<p>للاستضافة الدائمة استخدم Render أو Fly.io — الكود جاهز بلا تعديل
-(<code>render.yaml</code> و<code>Dockerfile</code> موجودان).</p>
+<div class="cd"><h3>🧠 النموذج النشط <span id="mTag"></span></h3>
+<div class="ks">
+<select id="mProv" class="f"></select>
+<input id="mBase" class="b f l" placeholder="Base URL">
+<input id="mModel" class="b f l" placeholder="Model">
+<input id="mKey" class="b f l" type="password" placeholder="API Key">
+</div>
+<div class="rw"><button class="b p" id="mSave">💾 حفظ وتفعيل</button>
+<button class="b" id="mTest">⚡ اختبار</button><span class="bd" id="mNote"></span></div></div>
 
-<h2>ما يحتويه</h2>
-<pre>• شات رمادي داكن، خط أبيض، مناسب لآيفون
-• زر 🧪 المختبر أعلى يسار — صفحة مستقلة
-• كلمة السر «نفذ» تبدأ التنفيذ الكامل في الخلفية
-• «عدل الكود الاساسي» يطوّر الكود الخام
-• الكود المؤقت + الكود الأساسي الخام
-• 5 مفاتيح تتبدّل تلقائياً كل 24 ساعة
-• 22 أداة تنفيذ، 31 مسار API
-• إرفاق صور وفيديو + تعديلها
-• محادثات محفوظة مع الحذف
-• نشر البرامج + مفتاح API مستقل لكل برنامج
-• تخطي الكابتشا عبر 2Captcha
-• كل الحدود معطّلة: MAX_AGENT_STEPS=0</pre>
+<div class="cd"><h3>① الكود المؤقت <span>يُولَّد ذاتياً أثناء التنفيذ</span></h3>
+<pre class="out" id="tr">(لا يوجد تنفيذ حالياً)</pre>
+<div class="rw"><button class="b" id="runCode">▶ تشغيل الكود</button>
+<button class="b" id="dlCode">⬇ تنزيل</button>
+<button class="b" id="openCode">🌐 معاينة</button>
+<span class="bd" id="tNote"></span></div>
+<pre class="out" id="runOut" style="display:none;max-height:22vh;border-top:1px solid var(--ln)"></pre></div>
 
-<p style="margin-top:30px;font-size:13px">أُنشئت هذه الصفحة بمساعدة وكيل ذكاء اصطناعي (OpenHands) نيابة عن مالك المستودع.</p>
-</body></html>
+<div class="cd"><h3>🔑 المفاتيح المتولدة تلقائياً <span>تبديل كل 24 ساعة</span></h3>
+<div class="ks" id="ks"></div><div class="bd" id="kCount"></div></div>
+
+<div class="cd"><h3>② الكود الأساسي الخام <span id="bTag"></span></h3>
+<textarea class="c" id="base" spellcheck="false"></textarea>
+<div class="rw"><button class="b p" id="saveBase">💾 حفظ الكود الأساسي</button>
+<button class="b" id="resetBase">↺ استعادة الافتراضي</button><span class="bd" id="bNote"></span></div></div>
+
+<div class="cd"><h3>🌐 البرامج المولّدة <span>تنزيل أو معاينة فورية</span></h3>
+<div class="ap" id="apps"><span class="bd">لا توجد برامج بعد</span></div></div>
+
+<div class="cd"><h3>📤 تصدير / استيراد <span>نسخة احتياطية</span></h3>
+<div class="rw"><button class="b" id="exp">⬇ تصدير كل البيانات</button>
+<button class="b" id="impBtn">⬆ استيراد</button>
+<input type="file" id="impFile" accept=".json" hidden></div></div>
+
+<div class="cd"><h3>🖼️ الوسائط المرفقة <span id="mStats"></span></h3>
+<div class="ks" id="gal"></div></div>
+
+</div></section>
+
+<div class="dr" id="dr"><div class="pl">
+<h3>المحادثات المحفوظة <button class="b" id="drClose">✕</button></h3>
+<div class="cl" id="cl"></div>
+<div class="rw"><button class="b p" id="newConv">＋ محادثة جديدة</button></div></div></div>
+
+<script>
+/* ============ الوكيل التقني المستقل — يعمل بالكامل في المتصفح ============ */
+const $=s=>document.querySelector(s);
+const LS={
+  get:(k,d)=>{try{return JSON.parse(localStorage.getItem('atk_'+k))??d}catch(e){return d}},
+  set:(k,v)=>localStorage.setItem('atk_'+k,JSON.stringify(v)),
+  del:k=>localStorage.removeItem('atk_'+k)
+};
+const esc=t=>(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const md=t=>esc(t).replace(/```(\w*)\n?([\s\S]*?)```/g,(_,l,c)=>`<pre>${c}</pre>`)
+                     .replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\n/g,'<br>');
+
+const PROVIDERS={
+  groq:{label:'Groq — مجاني وسريع (موصى به)',base:'https://api.groq.com/openai/v1',model:'llama-3.3-70b-versatile',key:'https://console.groq.com/keys'},
+  gemini:{label:'Google Gemini',base:'https://generativelanguage.googleapis.com/v1beta',model:'gemini-2.0-flash',key:'https://aistudio.google.com/apikey'},
+  openrouter:{label:'OpenRouter',base:'https://openrouter.ai/api/v1',model:'meta-llama/llama-3.3-70b-instruct:free',key:'https://openrouter.ai/keys'},
+  cerebras:{label:'Cerebras — سريع جداً',base:'https://api.cerebras.ai/v1',model:'llama-3.3-70b',key:'https://cloud.cerebras.ai'},
+  mistral:{label:'Mistral',base:'https://api.mistral.ai/v1',model:'mistral-large-latest',key:'https://console.mistral.ai/api-keys'},
+  custom:{label:'مخصص (أي واجهة متوافقة مع OpenAI)',base:'',model:'',key:''}
+};
+
+const DEFAULT_BASE=`# ===== الكود الأساسي الخام (CORE) =====
+# يعود الوكيل إلى هذا الكود بعد كل مهمة مكتملة.
+# اكتب «عدل الكود الاساسي» في الشات ليطوّره الوكيل ذاتياً.
+
+class Core:
+    """النواة الدنيا للوكيل الذاتي."""
+
+    version = "1.0"
+
+    def __init__(self):
+        self.skills = ["web_search", "fetch_url", "run_python", "publish_app"]
+
+    def capabilities(self):
+        return {"version": self.version, "skills": list(self.skills), "mode": "idle"}
+
+    def handle(self, task: str):
+        return {"task": task, "status": "accepted", "skills": self.skills}
+
+core = Core()
+`;
+
+/* ---------- حالة ---------- */
+let CFG=LS.get('cfg',{provider:'groq',base:PROVIDERS.groq.base,model:PROVIDERS.groq.model,key:''});
+let SID=LS.get('cid',null), AT=[], dot=null, BUSY=false;
+const M=$('#m');
+
+function saveCfg(){LS.set('cfg',CFG);renderCfg()}
+function hasKey(){return !!CFG.key}
+function apiBase(){return (CFG.base||'').replace(/\/+$/,'')}
+function isGemini(){return /generativelanguage\.googleapis\.com/.test(CFG.base||'')}
+
+/* ---------- المحادثات ---------- */
+function convs(){return LS.get('convs',{})}
+function saveConvs(c){LS.set('convs',c)}
+function newConv(title){
+  const id='c'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  const c=convs(); c[id]={id,title:title||'محادثة جديدة',created:Date.now(),updated:Date.now(),messages:[]};
+  saveConvs(c); return c[id];
+}
+function getConv(id){return convs()[id]}
+function ensureConv(){let c=getConv(SID); if(!c){c=newConv();SID=c.id;LS.set('cid',SID)} return c}
+function pushMsg(id,role,content,att){
+  const c=convs(); if(!c[id])return;
+  c[id].messages.push({role,content,att:att||[],ts:Date.now()});
+  c[id].updated=Date.now();
+  if(c[id].title==='محادثة جديدة'&&role==='user'&&content)c[id].title=content.slice(0,60);
+  saveConvs(c);
+}
+function delConv(id){const c=convs();delete c[id];saveConvs(c)}
+
+/* ---------- المفاتيح الخمسة ---------- */
+function seedKeys(){
+  const k=[];for(let i=0;i<5;i++)k.push({v:'sk-lab-'+rnd(28),c:Date.now(),u:0});
+  return {rotated:Date.now(),keys:k};
+}
+function rnd(n){const a='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let s='';const b=crypto.getRandomValues(new Uint8Array(n));for(let i=0;i<n;i++)s+=a[b[i]%a.length];return s}
+function getKeys(){
+  let d=LS.get('keys',null);
+  if(!d||!d.keys||Date.now()-d.rotated>=864e5){d=seedKeys();LS.set('keys',d)}
+  return d;
+}
+function rotKeys(){const d=seedKeys();LS.set('keys',d);return d}
+
+/* ---------- الوسائط (IndexedDB-lite عبر localStorage للصور الصغيرة) ---------- */
+const IMG='atk_img_';
+function saveImg(name,dataUrl){
+  const id='i'+Date.now().toString(36);
+  try{localStorage.setItem(IMG+id,JSON.stringify({name,url:dataUrl,ts:Date.now()}))}catch(e){return null}
+  return {id,name,url:dataUrl};
+}
+function listImg(){
+  const out=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k&&k.startsWith(IMG)){try{const v=JSON.parse(localStorage.getItem(k));out.push({id:k.slice(IMG.length),...v})}catch(e){}}
+  }
+  return out.sort((a,b)=>b.ts-a.ts);
+}
+function delImg(id){localStorage.removeItem(IMG+id)}
+/* ---------- استدعاء النموذج مباشرة من المتصفح ---------- */
+const SYS_CHAT=`أنت "الوكيل التقني" — خبير برمجة وخوارزميات وأنظمة، تتحدث العربية باختصار ودقة.
+- أجب مباشرة وبإيجاز. لا تستعرض قدراتك ولا تكرر السؤال.
+- أعطِ الحل التقني الصحيح كاملاً. اكتب الكود الكامل عند الحاجة داخل \`\`\`.
+- إذا احتاج الطلب تنفيذاً أو بناء برنامج، ناقش التفاصيل الضرورية واسأل عن النواقص،
+  وذكّر المستخدم أن كلمة السر «نفذ» تبدأ التنفيذ الكامل.
+- عند إرفاق صورة، حلّلها بدقة وأجب عنها.`;
+
+const SYS_EXEC=`أنت وكيل تنفيذي مستقل. أنجز المهمة كاملة الآن.
+أعد ردك بصيغة صارمة: فقرة قصيرة عن الخطة، ثم الكود الكامل في كتلة \`\`\` واحدة أو أكثر،
+ثم قائمة الخطوات المتبقية إن وُجدت. لا تسأل أسئلة — نفّذ بأفضل تقدير.
+اكتب كوداً كاملاً جاهزاً للتشغيل، بلا اختصارات ولا "..." مكان الأجزاء.`;
+
+function msgsFor(mode){
+  const c=ensureConv();
+  const sys=mode==='exec'?SYS_EXEC:SYS_CHAT;
+  const hist=c.messages.slice(-20).map(m=>({role:m.role==='user'?'user':'assistant',content:m.content||''}));
+  return [{role:'system',content:sys},...hist];
+}
+
+async function callLLM(messages,opts){
+  opts=opts||{};
+  if(!hasKey()&&!/localhost|127\.0\.0\.1/.test(apiBase()))
+    throw new Error('لم تضبط مفتاح API. افتح «المختبر ← النموذج النشط» وأدخل المفتاح.');
+  const model=opts.model||CFG.model;
+  if(isGemini())return callGemini(messages,model,opts);
+  const body={model,messages,temperature:opts.temp??0.4,max_tokens:opts.maxTokens??8192};
+  const r=await fetch(apiBase()+'/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.key},
+    body:JSON.stringify(body)
+  });
+  if(!r.ok){const t=await r.text();throw new Error('المزوّد رفض الطلب ('+r.status+'): '+t.slice(0,300))}
+  const d=await r.json();
+  const msg=d.choices&&d.choices[0]&&d.choices[0].message;
+  if(!msg)throw new Error('رد غير متوقع من المزوّد: '+JSON.stringify(d).slice(0,300));
+  return msg.content||'';
+}
+
+async function callGemini(messages,model,opts){
+  const sys=messages.filter(m=>m.role==='system').map(m=>m.content).join('\n');
+  const contents=[];
+  for(const m of messages){
+    if(m.role==='system')continue;
+    const parts=[];
+    if(typeof m.content==='string'){if(m.content)parts.push({text:m.content})}
+    else if(Array.isArray(m.content)){for(const p of m.content){
+      if(p.type==='text')parts.push({text:p.text});
+      else if(p.type==='image'&&p.data)parts.push({inlineData:{mimeType:p.mime||'image/png',data:p.data}});
+    }}
+    if(parts.length)contents.push({role:m.role==='assistant'?'model':'user',parts});
+  }
+  const body={contents,generationConfig:{temperature:opts.temp??0.4,maxOutputTokens:opts.maxTokens??8192}};
+  if(sys)body.systemInstruction={parts:[{text:sys}]};
+  const url=apiBase().replace(/\/v1beta.*$/,'')+'/v1beta/models/'+model+':generateContent?key='+encodeURIComponent(CFG.key);
+  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){const t=await r.text();throw new Error('Gemini رفض الطلب ('+r.status+'): '+t.slice(0,300))}
+  const d=await r.json();
+  const cand=d.candidates&&d.candidates[0];
+  if(!cand){const b=d.promptFeedback&&d.promptFeedback.blockReason;
+    throw new Error('Gemini لم يُرجع رداً'+(b?' (سبب الحجب: '+b+')':''))}
+  const parts=(cand.content&&cand.content.parts)||[];
+  return parts.map(p=>p.text||'').join('').trim();
+}
+
+/* ---------- أدوات الوكيل (تعمل من المتصفح) ---------- */
+async function webSearch(q){
+  try{
+    const u='https://ar.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srlimit=5&srsearch='+encodeURIComponent(q);
+    const r=await fetch(u);const d=await r.json();
+    const hits=(d.query&&d.query.search)||[];
+    if(!hits.length)return 'لا نتائج في ويكيبيديا لـ: '+q;
+    return hits.map(h=>`• ${h.title}: ${String(h.snippet||'').replace(/<[^>]+>/g,'')}`).join('\n');
+  }catch(e){return 'فشل البحث: '+e.message}
+}
+
+async function fetchUrl(url){
+  try{
+    const r=await fetch('https://r.jina.ai/'+url);
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return (await r.text()).slice(0,8000);
+  }catch(e){return 'فشل الجلب: '+e.message}
+}
+
+function extractCode(text){
+  const out=[];const re=/```(\w*)\n?([\s\S]*?)```/g;let m;
+  while((m=re.exec(text)))out.push({lang:m[1]||'text',code:m[2]});
+  return out;
+}
+
+/* كلمة السر: مطابقة الكلمة كاملةً حتى لا تُفعَّل بكلمات مثل «تنفذ» أو «ننفذ» */
+const TRIGGER_EXEC=/(^|[\s،,.!؟:"'()\[\]«»-])نفذ($|[\s،,.!؟:"'()\[\]«»-])/;
+const TRIGGER_BASE=/عدل\s+الكود\s+الاساسي|عدّل\s+الكود\s+الأساسي|عدل\s+الكود\s+الأساسي/;
+
+/* ---------- الواجهة ---------- */
+function add(r,t,html){const d=document.createElement('div');d.className='g '+r;
+  if(html)d.innerHTML=t;else d.textContent=t;M.appendChild(d);M.scrollTop=M.scrollHeight;return d}
+function addM(u){const d=document.createElement('div');d.className='g a';
+  d.innerHTML=`<img src="${u}">`;M.appendChild(d);M.scrollTop=M.scrollHeight}
+function addT(n){const d=document.createElement('div');d.className='tt';
+  d.innerHTML=`<span class="dt"></span> ⚙ ${esc(n)}`;M.appendChild(d);M.scrollTop=M.scrollHeight;return d}
+
+function renderCfg(){
+  $('#mTag').textContent=(CFG.provider||'custom')+(hasKey()?' · مفتاح مضبوط':' · بلا مفتاح');
+  $('#mProv').innerHTML=Object.entries(PROVIDERS).map(([k,v])=>
+    `<option value="${k}" ${k===CFG.provider?'selected':''}>${esc(v.label)}</option>`).join('');
+  $('#mBase').value=CFG.base||'';
+  $('#mModel').value=CFG.model||'';
+  $('#mKey').value=CFG.key||'';
+  $('#subT').textContent=hasKey()?'اكتب «نفذ» لبدء التنفيذ الكامل':'⚠ أدخل مفتاح API من المختبر';
+}
+
+function renderKeys(){
+  const d=getKeys();
+  $('#ks').innerHTML=d.keys.map(k=>`<div class="ky"><span class="k">${k.v.slice(0,11)}...${k.v.slice(-4)}</span>
+    <button class="b c2" data-v="${k.v}">نسخ</button><span class="bd">${k.u||0}×</span></div>`).join('');
+  const left=Math.max(0,864e5-(Date.now()-d.rotated));
+  $('#kCount').textContent='تبديل تلقائي بعد '+Math.floor(left/36e5)+'س '+Math.floor(left%36e5/6e4)+'د';
+  document.querySelectorAll('.c2').forEach(b=>b.onclick=()=>{
+    navigator.clipboard.writeText(b.dataset.v);b.textContent='✓';setTimeout(()=>b.textContent='نسخ',1200)});
+}
+
+function renderLab(){
+  $('#base').value=LS.get('base',DEFAULT_BASE);
+  $('#bTag').textContent='الإصدار '+(LS.get('baseV',1));
+  $('#tr').textContent=LS.get('trans','(لا يوجد تنفيذ حالياً)');
+  $('#tNote').textContent=LS.get('transNote','');
+  renderKeys();renderCfg();
+  const imgs=listImg();
+  $('#mStats').textContent=imgs.length+' صورة';
+  $('#gal').innerHTML=imgs.length?imgs.map(i=>`<div class="ky"><img src="${i.url}" style="width:44px;height:44px;object-fit:cover;border-radius:8px">
+    <span class="k">${esc(i.name)}</span><button class="b c2" data-del="${i.id}">🗑</button></div>`).join('')
+    :'<span class="bd">لا توجد صور مرفقة</span>';
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{delImg(b.dataset.del);renderLab()});
+  renderApps();
+}
+
+function renderApps(){
+  const apps=LS.get('apps',[]);
+  $('#apps').innerHTML=apps.length?apps.map((a,i)=>`<div class="a"><b>${esc(a.name)}</b>
+    <div class="bd" style="text-align:right">${new Date(a.ts).toLocaleString('ar')}</div>
+    <div class="rw" style="background:none;border:0;padding:6px 0">
+    <button class="b" data-open="${i}">🌐 معاينة</button>
+    <button class="b" data-dl="${i}">⬇ تنزيل</button>
+    <button class="b" data-del2="${i}">🗑</button></div></div>`).join('')
+    :'<span class="bd">لا توجد برامج بعد</span>';
+  document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openApp(+b.dataset.open));
+  document.querySelectorAll('[data-dl]').forEach(b=>b.onclick=()=>dlApp(+b.dataset.dl));
+  document.querySelectorAll('[data-del2]').forEach(b=>b.onclick=()=>{
+    const a=LS.get('apps',[]);a.splice(+b.dataset.del2,1);LS.set('apps',a);renderApps()});
+}
+
+function openApp(i){
+  const a=LS.get('apps',[])[i];if(!a)return;
+  const html=a.files['index.html']||Object.values(a.files)[0]||'<h1>لا يوجد ملف HTML</h1>';
+  const w=window.open('','_blank');
+  if(!w){alert('المتصفح منع فتح النافذة. اسمح بالنوافذ المنبثقة.');return}
+  w.document.write(html);w.document.close();
+}
+function dlApp(i){
+  const a=LS.get('apps',[])[i];if(!a)return;
+  Object.entries(a.files).forEach(([n,c])=>{
+    const b=new Blob([c],{type:n.endsWith('.html')?'text/html':'text/plain'});
+    const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download=n;l.click();
+    setTimeout(()=>URL.revokeObjectURL(u),2000);
+  });
+}
+
+function drawAT(){
+  const r=$('#arw');r.style.display=AT.length?'flex':'none';
+  r.innerHTML=AT.map((a,i)=>`<span class="ch">🖼️ ${esc(a.name)}<button data-i="${i}">✕</button></span>`).join('');
+  r.querySelectorAll('button').forEach(b=>b.onclick=()=>{AT.splice(+b.dataset.i,1);drawAT()});
+}
+/* ---------- إرسال الرسالة ---------- */
+async function send(){
+  if(BUSY)return;
+  const i=$('#in'),t=i.value.trim();
+  if(!t&&!AT.length)return;
+  if(!hasKey()){add('s','⚠️ أدخل مفتاح API أولاً من «المختبر ← النموذج النشط».');return}
+  ensureConv();
+  i.value='';i.style.height='auto';
+  const imgs=AT.slice();AT=[];drawAT();
+  add('u',t||'(صورة)');
+  imgs.forEach(a=>addM(a.url));
+  pushMsg(SID,'user',t,imgs.map(a=>a.name));
+
+  const exec=TRIGGER_EXEC.test(t);
+  const baseEdit=TRIGGER_BASE.test(t);
+  const b=add('a','…');
+  BUSY=true;$('#send').disabled=true;
+
+  try{
+    if(exec||baseEdit){
+      add('s',baseEdit?'🔒 وضع تعديل الكود الأساسي…':'🔒 وضع التنفيذ — يعمل الآن…');
+      const parts=[];
+      if(t)parts.push({type:'text',text:baseEdit?t+' — طوّر الكود الأساسي الخام وأضف الميزة المطلوبة.':t});
+      imgs.forEach(a=>parts.push({type:'image',mime:a.mime||'image/png',data:a.url.split(',')[1]}));
+      const msgs=[{role:'system',content:SYS_EXEC}];
+      if(baseEdit)msgs.push({role:'user',content:'هذا هو الكود الأساسي الحالي:\n```\n'+
+        LS.get('base',DEFAULT_BASE).slice(0,6000)+'\n```'});
+      const hist=ensureConv().messages.slice(-6,-1).map(m=>({role:m.role==='user'?'user':'assistant',content:m.content||''}));
+      msgs.push(...hist,{role:'user',content:parts.length===1?parts[0].text:parts});
+
+      const dot=addT('توليد الكود').querySelector('.dt');
+      const out=await callLLM(msgs,{temp:0.3});
+      dot.className='dt ok';
+      b.innerHTML=md(out);
+
+      const codes=extractCode(out);
+      if(codes.length){
+        const code=codes.map(c=>`/* ===== ${c.lang} ===== */\n${c.code}`).join('\n\n');
+        LS.set('trans',code);LS.set('transNote','آخر توليد — '+new Date().toLocaleTimeString('ar'));
+        $('#tr').textContent=code;$('#tNote').textContent=LS.get('transNote','');
+        const htmlCode=codes.find(c=>/html/i.test(c.lang)||/<html|<!DOCTYPE/i.test(c.code));
+        const apps=LS.get('apps',[]);
+        const files={};codes.forEach((c,idx)=>files['part'+(idx+1)+(c.lang?'.'+c.lang:'')]=c.code);
+        if(htmlCode)files['index.html']=htmlCode.code;
+        apps.unshift({name:(t||'برنامج').slice(0,40),ts:Date.now(),files});
+        LS.set('apps',apps.slice(0,20));
+        renderApps();
+        add('s','✅ الكود جاهز في «المختبر ← الكود المؤقت» (و'+codes.length+' كتلة محفوظة في البرامج المولّدة).');
+      }
+      if(baseEdit){
+        const newBase=codes.length?codes[codes.length-1].code:out;
+        LS.set('base',newBase);LS.set('baseV',LS.get('baseV',1)+1);
+        add('s','✅ تم تحديث الكود الأساسي — الإصدار '+LS.get('baseV',1));
+      }
+      pushMsg(SID,'assistant',out);
+    }else{
+      const parts=[];
+      if(t)parts.push({type:'text',text:t});
+      imgs.forEach(a=>parts.push({type:'image',mime:a.mime||'image/png',data:a.url.split(',')[1]}));
+      const msgs=msgsFor('chat');
+      msgs.push({role:'user',content:parts.length===1?parts[0].text:parts});
+      const out=await callLLM(msgs,{temp:0.45});
+      b.innerHTML=md(out||'(رد فارغ)');
+      pushMsg(SID,'assistant',out);
+    }
+  }catch(e){
+    b.innerHTML='<span style="color:#e0645f">⚠️ '+esc(e.message)+'</span>';
+  }finally{
+    BUSY=false;$('#send').disabled=false;M.scrollTop=M.scrollHeight;
+  }
+}
+
+/* ---------- تشغيل الكود المولَّد ---------- */
+function runTransient(){
+  const code=LS.get('trans','');
+  if(!code){alert('لا يوجد كود مؤقت. نفّذ مهمة أولاً.');return}
+  const o=$('#runOut');o.style.display='block';
+  if(/<html|<!DOCTYPE|<body|<div|<script|<style/i.test(code)){
+    const w=window.open('','_blank');
+    if(!w){o.textContent='المتصفح منع فتح النافذة. اسمح بالنوافذ المنبثقة.';return}
+    w.document.write(code);w.document.close();o.textContent='تم فتح الكود في نافذة جديدة ✓';
+    return;
+  }
+  if(/^\s*(#|def |class |import |from )/m.test(code)&&!/=>|function |const |let |var /.test(code)){
+    o.textContent='هذا كود Python — لا يمكن تشغيله في المتصفح مباشرة.\n\n'+
+      'شغّله على جهازك:\n  python file.py\n\n'+
+      'أو انسخه من «الكود المؤقت» ← «تنزيل».';
+    return;
+  }
+  const logs=[];
+  try{
+    const fn=new Function('console',code);
+    fn({log:(...a)=>logs.push(a.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' '))});
+    o.textContent=logs.join('\n')||'(انتهى بلا مخرجات)';
+  }catch(e){o.textContent='خطأ: '+e.message}
+}
+
+/* ---------- الأحداث ---------- */
+$('#labBtn').onclick=()=>{$('#chat').classList.remove('on');$('#lab').classList.add('on');renderLab()};
+$('#back').onclick=()=>{$('#lab').classList.remove('on');$('#chat').classList.add('on')};
+$('#send').onclick=send;
+$('#in').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+$('#in').addEventListener('input',e=>{e.target.style.height='auto';
+  e.target.style.height=Math.min(e.target.scrollHeight,130)+'px'});
+
+$('#pick').onclick=()=>$('#fi').click();
+$('#fi').onchange=async e=>{
+  for(const f of e.target.files){
+    const d=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});
+    const it=saveImg(f.name,d);
+    if(it)AT.push({...it,mime:f.type});
+    else alert('تعذّر تخزين الصورة — مساحة المتصفح ممتلئة.');
+  }
+  e.target.value='';drawAT();
+};
+
+$('#mProv').onchange=()=>{
+  const p=PROVIDERS[$('#mProv').value];
+  if(p){$('#mBase').value=p.base;$('#mModel').value=p.model}
+};
+$('#mSave').onclick=()=>{
+  CFG={provider:$('#mProv').value,base:$('#mBase').value.trim(),
+       model:$('#mModel').value.trim(),key:$('#mKey').value.trim()};
+  saveCfg();
+  const p=PROVIDERS[CFG.provider];
+  $('#mNote').textContent='تم الحفظ ✓'+(p&&p.key?' — احصل على مفتاح من '+p.key:'');
+};
+$('#mTest').onclick=async()=>{
+  $('#mNote').textContent='جارٍ الاختبار…';
+  try{const r=await callLLM([{role:'user',content:'قل: تم'}],{temp:0,maxTokens:20});
+    $('#mNote').textContent='يعمل ✓ — '+(r||'').slice(0,60)}
+  catch(e){$('#mNote').textContent='فشل: '+e.message.slice(0,120)}
+};
+
+$('#runCode').onclick=runTransient;
+$('#dlCode').onclick=()=>{
+  const code=LS.get('trans','');if(!code)return alert('لا يوجد كود مؤقت.');
+  const b=new Blob([code],{type:'text/plain'});const u=URL.createObjectURL(b);
+  const l=document.createElement('a');l.href=u;l.download='transient.txt';l.click();
+  setTimeout(()=>URL.revokeObjectURL(u),2000);
+};
+$('#openCode').onclick=runTransient;
+
+$('#saveBase').onclick=()=>{
+  LS.set('base',$('#base').value);LS.set('baseV',LS.get('baseV',1)+1);
+  $('#bTag').textContent='الإصدار '+LS.get('baseV',1);
+  $('#bNote').textContent='تم الحفظ ✓';
+};
+$('#resetBase').onclick=()=>{
+  if(!confirm('استعادة الكود الأساسي الافتراضي؟'))return;
+  LS.set('base',DEFAULT_BASE);LS.set('baseV',1);$('#base').value=DEFAULT_BASE;
+  $('#bTag').textContent='الإصدار 1';$('#bNote').textContent='تمت الاستعادة ✓';
+};
+
+$('#exp').onclick=()=>{
+  const data={cfg:{...CFG,key:''},base:LS.get('base',''),baseV:LS.get('baseV',1),
+    convs:convs(),apps:LS.get('apps',[]),exported:new Date().toISOString()};
+  const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;
+  l.download='agent-backup.json';l.click();setTimeout(()=>URL.revokeObjectURL(u),2000);
+};
+$('#impBtn').onclick=()=>$('#impFile').click();
+$('#impFile').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const fr=new FileReader();
+  fr.onload=()=>{try{
+    const d=JSON.parse(fr.result);
+    if(d.base)LS.set('base',d.base);
+    if(d.baseV)LS.set('baseV',d.baseV);
+    if(d.convs)LS.set('convs',d.convs);
+    if(d.apps)LS.set('apps',d.apps);
+    if(d.cfg&&d.cfg.provider){CFG={...CFG,...d.cfg,key:CFG.key};saveCfg()}
+    renderLab();alert('تم الاستيراد ✓');
+  }catch(x){alert('ملف غير صالح: '+x.message)}};
+  fr.readAsText(f);e.target.value='';
+};
+
+$('#convBtn').onclick=()=>{renderConvs();$('#dr').classList.add('on')};
+$('#drClose').onclick=()=>$('#dr').classList.remove('on');
+$('#newConv').onclick=()=>{
+  const c=newConv();SID=c.id;LS.set('cid',SID);
+  M.innerHTML='';add('a','محادثة جديدة. اكتب مهمتك، وعند كلمة «نفذ» أبدأ التنفيذ.');
+  $('#dr').classList.remove('on');
+};
+function renderConvs(){
+  const all=Object.values(convs()).sort((a,b)=>b.updated-a.updated);
+  $('#cl').innerHTML=all.length?all.map(c=>`<div class="cv ${c.id===SID?'on':''}">
+    <div class="x" data-o="${c.id}"><b>${esc(c.title)}</b><small>${c.messages.length} رسالة</small></div>
+    <button class="d" data-d="${c.id}">🗑</button></div>`).join('')
+    :'<span class="bd">لا توجد محادثات</span>';
+  document.querySelectorAll('[data-o]').forEach(e=>e.onclick=()=>openConv(e.dataset.o));
+  document.querySelectorAll('[data-d]').forEach(e=>e.onclick=v=>{
+    v.stopPropagation();if(!confirm('حذف هذه المحادثة نهائياً؟'))return;
+    delConv(e.dataset.d);
+    if(e.dataset.d===SID){SID=null;LS.del('cid');M.innerHTML='';add('a','ابدأ محادثة جديدة.')}
+    renderConvs()});
+}
+function openConv(id){
+  const c=getConv(id);if(!c)return;
+  SID=id;LS.set('cid',id);M.innerHTML='';
+  (c.messages||[]).forEach(m=>add(m.role==='user'?'u':'a',m.content||'(مرفق)',false));
+  $('#dr').classList.remove('on');
+}
+
+/* ---------- بدء ---------- */
+(function init(){
+  const c=getConv(SID);
+  if(c&&c.messages.length){
+    c.messages.forEach(m=>add(m.role==='user'?'u':'a',m.content||'(مرفق)',false));
+  }else{
+    if(!c){const n=newConv();SID=n.id;LS.set('cid',SID)}
+    add('a','مرحباً. أنا وكيلك التقني المستقل.\n\nأدخل مفتاح API من «🧪 المختبر ← النموذج النشط»، ثم اكتب مهمتك.\nوعند كلمة «نفذ» أبدأ التنفيذ الكامل.\n\nيمكنك إرفاق صور بـ 📎، ومتابعة المحادثات المحفوظة من ☰.');
+  }
+  renderCfg();
+})();
+</script></body></html>
