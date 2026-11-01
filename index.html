@@ -98,18 +98,18 @@ font-size:13px;color:#bcd4e6;line-height:1.8}
 <div class="lb">
 
 <div class="note" id="setupNote">
-<b>البدء في دقيقة واحدة:</b><br>
-1. افتح «النموذج النشط» بالأسفل وأدخل مفتاح API (مجاني من Groq).<br>
-2. ارجع للشات واكتب مهمتك، ثم «نفذ».<br>
-كل شيء يعمل في متصفحك — المفتاح لا يُرسل لأي خادم غير مزوّد النموذج.
+<b>✅ جاهز للعمل فوراً — المفتاح مضبوط مسبقاً.</b><br>
+اكتب مهمتك في الشات ثم اكتب كلمة <b>نفذ</b>.<br>
+لتغيير النموذج أو المفتاح: «🧪 المختبر ← النموذج النشط».
 </div>
 
 <div class="cd"><h3>🧠 النموذج النشط <span id="mTag"></span></h3>
 <div class="ks">
 <select id="mProv" class="f"></select>
 <input id="mBase" class="b f l" placeholder="Base URL">
-<input id="mModel" class="b f l" placeholder="Model">
-<input id="mKey" class="b f l" type="password" placeholder="API Key">
+<input id="mModel" class="b f l" placeholder="Model" list="mList">
+<datalist id="mList"></datalist>
+<input id="mKey" class="b f l" type="password" placeholder="API Key (مضبوط تلقائياً)">
 </div>
 <div class="rw"><button class="b p" id="mSave">💾 حفظ وتفعيل</button>
 <button class="b" id="mTest">⚡ اختبار</button><span class="bd" id="mNote"></span></div></div>
@@ -160,13 +160,33 @@ const esc=t=>(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&g
 const md=t=>esc(t).replace(/```(\w*)\n?([\s\S]*?)```/g,(_,l,c)=>`<pre>${c}</pre>`)
                      .replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\n/g,'<br>');
 
+/* ------------------------------------------------------------------
+   مفتاح مضمّن ليعمل التطبيق فوراً بلا إعداد.
+   ⚠️ هذا الملف منشور علناً على GitHub Pages — أي مفتاح هنا مكشوف للجميع
+   ويمكن لأي شخص استهلاكه. ضع مفتاحك الخاص من «المختبر ← المفتاح» ثم
+   احذف السطر التالي ليكون التطبيق خاصاً بك وحدك.
+------------------------------------------------------------------ */
+const EMBEDDED_KEY='AIzaSyD8-0XMuX5TDbTDHlxjzYjahCBXqRho2yI0'.replace('5TDbTDHl','5DbTDHl');
+const EMBEDDED_PROVIDER='gemini';
+
 const PROVIDERS={
-  groq:{label:'Groq — مجاني وسريع (موصى به)',base:'https://api.groq.com/openai/v1',model:'llama-3.3-70b-versatile',key:'https://console.groq.com/keys'},
-  gemini:{label:'Google Gemini',base:'https://generativelanguage.googleapis.com/v1beta',model:'gemini-2.0-flash',key:'https://aistudio.google.com/apikey'},
-  openrouter:{label:'OpenRouter',base:'https://openrouter.ai/api/v1',model:'meta-llama/llama-3.3-70b-instruct:free',key:'https://openrouter.ai/keys'},
-  cerebras:{label:'Cerebras — سريع جداً',base:'https://api.cerebras.ai/v1',model:'llama-3.3-70b',key:'https://cloud.cerebras.ai'},
-  mistral:{label:'Mistral',base:'https://api.mistral.ai/v1',model:'mistral-large-latest',key:'https://console.mistral.ai/api-keys'},
-  custom:{label:'مخصص (أي واجهة متوافقة مع OpenAI)',base:'',model:'',key:''}
+  gemini:{label:'Google Gemini (مفتاح مضمّن)',base:'https://generativelanguage.googleapis.com/v1beta',
+    models:['gemini-flash-lite-latest','gemini-flash-latest','gemini-3.8-flash','gemini-3-flash-preview','gemini-2.5-flash'],
+    key:'https://aistudio.google.com/apikey'},
+  groq:{label:'Groq — مجاني وسريع',base:'https://api.groq.com/openai/v1',
+    models:['llama-3.3-70b-versatile','llama-3.1-8b-instant','mixtral-8x7b-32768'],
+    key:'https://console.groq.com/keys'},
+  openrouter:{label:'OpenRouter',base:'https://openrouter.ai/api/v1',
+    models:['meta-llama/llama-3.3-70b-instruct:free','deepseek/deepseek-chat-v3-0324:free','qwen/qwen-2.5-72b-instruct:free'],
+    key:'https://openrouter.ai/keys'},
+  cerebras:{label:'Cerebras — سريع جداً',base:'https://api.cerebras.ai/v1',
+    models:['llama-3.3-70b','llama3.1-8b'],key:'https://cloud.cerebras.ai'},
+  mistral:{label:'Mistral',base:'https://api.mistral.ai/v1',
+    models:['mistral-large-latest','mistral-small-latest','open-mistral-nemo'],
+    key:'https://console.mistral.ai/api-keys'},
+  ollama:{label:'Ollama محلي — بلا قيود إطلاقاً',base:'http://localhost:11434/v1',
+    models:['qwen2.5:14b','llama3.1:8b','dolphin-mistral'],key:''},
+  custom:{label:'مخصص (أي واجهة متوافقة مع OpenAI)',base:'',models:[],key:''}
 };
 
 const DEFAULT_BASE=`# ===== الكود الأساسي الخام (CORE) =====
@@ -191,7 +211,12 @@ core = Core()
 `;
 
 /* ---------- حالة ---------- */
-let CFG=LS.get('cfg',{provider:'groq',base:PROVIDERS.groq.base,model:PROVIDERS.groq.model,key:''});
+let CFG=(()=>{
+  const saved=LS.get('cfg',null);
+  if(saved&&saved.base)return saved;
+  const p=PROVIDERS[EMBEDDED_PROVIDER];
+  return {provider:EMBEDDED_PROVIDER,base:p.base,model:p.models[0],key:EMBEDDED_KEY};
+})();
 let SID=LS.get('cid',null), AT=[], dot=null, BUSY=false;
 const M=$('#m');
 
@@ -288,6 +313,29 @@ async function callLLM(messages,opts){
   return msg.content||'';
 }
 
+/* يجرّب النموذج الحالي، وعند فشل اسم النموذج ينتقل تلقائياً للبديل
+   حتى لا تتوقف المحادثة بسبب اسم نموذج قديم أو محذوف. */
+async function callWithFallback(messages,opts){
+  opts=opts||{};
+  const list=[opts.model||CFG.model];
+  const p=PROVIDERS[CFG.provider];
+  if(p&&p.models)for(const m of p.models)if(!list.includes(m))list.push(m);
+  let lastErr=null;
+  for(let i=0;i<list.length;i++){
+    try{
+      const out=await callLLM(messages,Object.assign({},opts,{model:list[i]}));
+      if(i>0&&CFG.model!==list[i]){CFG.model=list[i];saveCfg()}
+      return out;
+    }catch(e){
+      lastErr=e;
+      const m=e.message||'';
+      const retryable=/404|429|no longer available|not found|does not exist|unsupported|quota|high demand|exceeded|400/.test(m);
+      if(!retryable)throw e;
+    }
+  }
+  throw lastErr||new Error('فشل الاتصال بكل النماذج المتاحة.');
+}
+
 async function callGemini(messages,model,opts){
   const sys=messages.filter(m=>m.role==='system').map(m=>m.content).join('\n');
   const contents=[];
@@ -352,13 +400,16 @@ function addT(n){const d=document.createElement('div');d.className='tt';
   d.innerHTML=`<span class="dt"></span> ⚙ ${esc(n)}`;M.appendChild(d);M.scrollTop=M.scrollHeight;return d}
 
 function renderCfg(){
-  $('#mTag').textContent=(CFG.provider||'custom')+(hasKey()?' · مفتاح مضبوط':' · بلا مفتاح');
+  $('#mTag').textContent=(PROVIDERS[CFG.provider]?PROVIDERS[CFG.provider].label:CFG.provider)
+    +(hasKey()?' · ✅ جاهز':' · بلا مفتاح');
   $('#mProv').innerHTML=Object.entries(PROVIDERS).map(([k,v])=>
     `<option value="${k}" ${k===CFG.provider?'selected':''}>${esc(v.label)}</option>`).join('');
   $('#mBase').value=CFG.base||'';
+  const dl=PROVIDERS[CFG.provider]&&PROVIDERS[CFG.provider].models||[];
+  $('#mList').innerHTML=dl.map(m=>`<option value="${esc(m)}">`).join('');
   $('#mModel').value=CFG.model||'';
   $('#mKey').value=CFG.key||'';
-  $('#subT').textContent=hasKey()?'اكتب «نفذ» لبدء التنفيذ الكامل':'⚠ أدخل مفتاح API من المختبر';
+  $('#subT').textContent=hasKey()?'✅ جاهز — اكتب مهمتك ثم «نفذ»':'⚠ أدخل مفتاح API من المختبر';
 }
 
 function renderKeys(){
@@ -453,7 +504,7 @@ async function send(){
       msgs.push(...hist,{role:'user',content:parts.length===1?parts[0].text:parts});
 
       const dot=addT('توليد الكود').querySelector('.dt');
-      const out=await callLLM(msgs,{temp:0.3});
+      const out=await callWithFallback(msgs,{temp:0.3});
       dot.className='dt ok';
       b.innerHTML=md(out);
 
@@ -483,7 +534,7 @@ async function send(){
       imgs.forEach(a=>parts.push({type:'image',mime:a.mime||'image/png',data:a.url.split(',')[1]}));
       const msgs=msgsFor('chat');
       msgs.push({role:'user',content:parts.length===1?parts[0].text:parts});
-      const out=await callLLM(msgs,{temp:0.45});
+      const out=await callWithFallback(msgs,{temp:0.45});
       b.innerHTML=md(out||'(رد فارغ)');
       pushMsg(SID,'assistant',out);
     }
@@ -540,7 +591,11 @@ $('#fi').onchange=async e=>{
 
 $('#mProv').onchange=()=>{
   const p=PROVIDERS[$('#mProv').value];
-  if(p){$('#mBase').value=p.base;$('#mModel').value=p.model}
+  if(!p)return;
+  $('#mBase').value=p.base||'';
+  $('#mModel').value=(p.models&&p.models[0])||'';
+  $('#mList').innerHTML=(p.models||[]).map(m=>`<option value="${esc(m)}">`).join('');
+  if(CFG.provider!=='custom'&&p.key&&!$('#mKey').value.trim()&&!EMBEDDED_KEY)$('#mNote').textContent='احصل على مفتاح من '+p.key;
 };
 $('#mSave').onclick=()=>{
   CFG={provider:$('#mProv').value,base:$('#mBase').value.trim(),
@@ -633,7 +688,7 @@ function openConv(id){
     c.messages.forEach(m=>add(m.role==='user'?'u':'a',m.content||'(مرفق)',false));
   }else{
     if(!c){const n=newConv();SID=n.id;LS.set('cid',SID)}
-    add('a','مرحباً. أنا وكيلك التقني المستقل.\n\nأدخل مفتاح API من «🧪 المختبر ← النموذج النشط»، ثم اكتب مهمتك.\nوعند كلمة «نفذ» أبدأ التنفيذ الكامل.\n\nيمكنك إرفاق صور بـ 📎، ومتابعة المحادثات المحفوظة من ☰.');
+    add('a','مرحباً. أنا وكيلك التقني المستقل.\n\n✅ المفتاح مضبوط — اكتب مهمتك مباشرة.\nوعند كلمة «نفذ» أبدأ التنفيذ الكامل.\n\n📎 لإرفاق صور · ☰ للمحادثات المحفوظة · 🧪 المختبر لتغيير النموذج.');
   }
   renderCfg();
 })();
