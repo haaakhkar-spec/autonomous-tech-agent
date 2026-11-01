@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: autonomous-tech-agent
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_BASE_URL
+        value: https://generativelanguage.googleapis.com/v1beta
+      - key: LLM_MODEL
+        value: gemini-3.8-flash
+      - key: LLM_FALLBACK_MODELS
+        value: gemini-3.7-flash,gemini-3.5-flash
+      - key: TRIGGER_WORD
+        value: نفذ
+      - key: MAX_AGENT_STEPS
+        value: "0"
+      - key: MAX_TOOL_OUTPUT
+        value: "0"
+      - key: TOOL_RESULT_CHARS
+        value: "0"
+      - key: TOOL_TIMEOUT
+        value: "600"
+      - key: DATA_DIR
+        value: /var/data
+      - key: CAPTCHA_API_KEY
+        sync: false
+    disk:
+      name: agent-data
+      mountPath: /var/data
+      sizeGB: 5
