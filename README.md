@@ -4,96 +4,96 @@
 الوكيل التنفيذي الذاتي، مكتبة الصور والفيديو، المحادثات المحفوظة،
 والاستضافة الدائمة للبرامج المولّدة.
 
-لا يحتاج قاعدة بيانات. لا يحتاج خدمات خارجية غير مزوّد النموذج.
+لا يحتاج قاعدة بيانات، ولا خدمة خارجية غير مزوّد النموذج.
 
 ---
 
-## ١) النشر على GitHub — خطوة بخطوة
+## حقيقة مهمة قبل البدء
 
-### أ) أنشئ المستودع
+**GitHub لا يستضيف خوادم Python.** هذا مهم أن تعرفه بوضوح:
 
-1. افتح https://github.com/new
-2. الاسم: `autonomous-tech-agent` (أو أي اسم تريد)
-3. اختر **Private** إن أردت إخفاء الكود، أو **Public**
-4. **لا** تضف README أو .gitignore (سنرفع ملفاتنا)
-5. اضغط **Create repository**
+| خدمة GitHub | هل تشغّل هذا التطبيق؟ |
+|---|---|
+| GitHub Pages | ❌ ملفات ثابتة فقط (HTML/CSS/JS) — لا تشغّل Python |
+| GitHub Actions | ❌ تشغيل مؤقت عند حدث، بلا رابط عام وارد |
+| GitHub Codespaces | ✅ تشغيل حقيقي + منفذ عام — لكنه ينام عند عدم الاستخدام |
 
-### ب) ارفع الملفات
+لذلك إن أردت **استضافة دائمة مجانية على GitHub وحده**، فالجواب: غير ممكن تقنياً.
+الكود جاهز ومرفوع، والخيارات أدناه مرتبة من الأقرب لـ GitHub إلى الأبعد.
 
-افتح الطرفية في مجلد الملف واكتب:
+---
+
+## ١) التشغيل من GitHub Codespaces (خيار GitHub الوحيد)
+
+مجهّز بالكامل: `.devcontainer/devcontainer.json` يثبّت المكتبات ويفتح المنفذ تلقائياً.
+
+1. افتح https://github.com/haaakhkar-spec/autonomous-tech-agent
+2. اضغط الزر الأخضر **Code** ← تبويب **Codespaces** ← **Create codespace on main**
+3. انتظر دقيقة (يثبّت المكتبات تلقائياً)
+4. في الطرفية داخل Codespace اكتب:
 
 ```bash
-cd single
-
-git init
-git add agent.py requirements.txt Dockerfile render.yaml README.md .env.example
-git commit -m "الوكيل التقني المستقل — ملف واحد"
-
-git branch -M main
-git remote add origin https://github.com/<حسابك>/<المستودع>.git
-git push -u origin main
+export LLM_API_KEY="مفتاحك"
+./start.sh
 ```
 
-بدّل `<حسابك>` باسم مستخدمك و`<المستودع>` باسم المستودع.
+5. ستظهر رسالة **Open in Browser** — اضغطها، أو من تبويب **Ports** اضغط أيقونة
+   الكرة الأرضية بجانب المنفذ 8000. غيّر **Port Visibility** إلى **Public** لتحصل على
+   رابط مباشر يعمل من جوالك.
 
-عند طلب كلمة المرور، استخدم **Personal Access Token** لا كلمة المرور:
-أنشئه من https://github.com/settings/tokens (صلاحية `repo`) وضعه مكان كلمة المرور.
+> الرابط يبقى فعّالاً ما دامت الـ Codespace مفتوحة. تنام تلقائياً بعد خمول،
+> فتحتاج إعادة تشغيلها. الطبقة المجانية تمنح 60 ساعة شهرياً.
 
 ---
 
-## ٢) النشر الدائم على Render
+## ٢) النشر الدائم الحقيقي (خارج GitHub)
 
-الملف `render.yaml` جاهز، وRender يقرأه تلقائياً.
+الكود جاهز، ويحتاج منصة تشغّل Docker أو Python. **لا تحتاج أي تعديل**:
 
-1. افتح https://dashboard.render.com
-2. اضغط **New** ← **Blueprint**
-3. اربط حساب GitHub واختر المستودع
-4. Render سيتعرّف على `render.yaml` ويعرض الخدمة
-5. عند طلب المتغيرات املأ:
-   - `LLM_API_KEY` = مفتاح النموذج
-   - `CAPTCHA_API_KEY` = مفتاح 2Captcha (اختياري، اتركه فارغاً)
-6. اضغط **Apply**
+### Render (الأسهل — يقرأ `render.yaml` تلقائياً)
 
-انتظر ٢–٣ دقائق. ستحصل على رابط ثابت مثل:
+1. https://dashboard.render.com ← **New** ← **Blueprint**
+2. اختر المستودع `autonomous-tech-agent`
+3. أدخل `LLM_API_KEY` (و`CAPTCHA_API_KEY` اختيارياً)
+4. **Apply** — بعد ٢–٣ دقائق تحصل على رابط ثابت
 
-```
-https://autonomous-tech-agent.onrender.com
+### Fly.io / Railway / أي VPS
+
+```bash
+fly launch && fly deploy          # يقرأ Dockerfile
 ```
 
-هذا الرابط **ملكك ومستقل**، ويعمل بعد إغلاق متصفحك لأن السيرفر يعمل على Render
-لا في جهازك. اضغط على الرابط تظهر واجهة الشات مباشرة.
+أو على أي خادم:
 
-> القرص الدائم ٥ جيجابايت مربوط على `/var/data` في `render.yaml`،
-> فتبقى البرامج المنشورة والمحادثات محفوظة بعد كل إعادة تشغيل.
+```bash
+pip install -r requirements.txt
+LLM_API_KEY=... PORT=80 ./start.sh
+```
 
 ---
 
-## ٣) اختيار النموذج
+## ٣) اختيار النموذج — مهم للاستخدام الجدّي
 
-الطبقة المجانية من Gemini محدودة بـ **٢٠ طلباً يومياً** فقط، وهذا لا يكفي
-لوكيل ذاتي متعدد الخطوات. للاستضافة الدائمة استخدم مزوّداً بسقف أعلى.
+الطبقة المجانية من Gemini محدودة بـ **٢٠ طلباً يومياً**، وهذا لا يكفي لوكيل ذاتي
+متعدد الخطوات. للاستخدام الجدّي بدّل المزوّد من **المختبر ← النموذج النشط**، أو
+اضبط متغيرات البيئة:
 
-### Groq (الأسرع، طبقة مجانية سخية)
-
-في Render ← Environment أضف:
+### Groq (سريع، طبقة مجانية سخية)
 
 ```
 LLM_BASE_URL = https://api.groq.com/openai/v1
 LLM_MODEL    = llama-3.3-70b-versatile
-LLM_API_KEY  = <مفتاح Groq من console.groq.com>
+LLM_API_KEY  = <مفتاح من console.groq.com>
 ```
 
-### OpenRouter (نماذج كثيرة بمفتاح واحد)
+### OpenRouter
 
 ```
 LLM_BASE_URL = https://openrouter.ai/api/v1
 LLM_MODEL    = meta-llama/llama-3.3-70b-instruct
-LLM_API_KEY  = <مفتاح OpenRouter>
 ```
 
 ### نموذج محلي مفتوح (بلا مزوّد ولا سقف طلبات)
-
-شغّل Ollama أو vLLM على جهازك واجعله متاحاً:
 
 ```
 LLM_BASE_URL = http://<عنوان-جهازك>:11434/v1
@@ -101,22 +101,14 @@ LLM_MODEL    = qwen2.5:14b
 LLM_API_KEY  = ollama
 ```
 
-يمكن التبديل بينها لاحقاً من الواجهة: **المختبر ← النموذج النشط ← حفظ وتفعيل**.
-
 ---
 
-## ٤) التشغيل المحلي (اختياري)
+## ٤) التشغيل المحلي
 
 ```bash
 pip install -r requirements.txt
-
-# لينكس/ماك
-export LLM_API_KEY="مفتاحك"
-python agent.py
-
-# ويندوز PowerShell
-$env:LLM_API_KEY="مفتاحك"
-python agent.py
+export LLM_API_KEY="مفتاحك"      # ويندوز: $env:LLM_API_KEY="مفتاحك"
+./start.sh                        # أو: python agent.py
 ```
 
 ثم افتح http://localhost:8000
@@ -129,17 +121,18 @@ python agent.py
 |---|---|
 | كلمة السر `نفذ` | تبدأ التنفيذ الكامل في الخلفية |
 | `عدل الكود الاساسي` | يطوّر الكود الخام ويضيف الميزات |
-| زر **المختبر** (أعلى يسار) | ينتقل للوحة التحكم |
+| زر **🧪 المختبر** (أعلى يسار) | صفحة لوحة التحكم المستقلة |
 | 📎 | إرفاق صور وفيديو للتحليل والتعديل |
 | ☰ (أعلى يمين) | المحادثات المحفوظة مع الحذف |
 
 في المختبر:
 
 - **الكود المؤقت** — يتولّد ذاتياً أثناء التنفيذ، لا يُرسل في الشات
-- **الكود الأساسي الخام** — قابل للتعديل
+- **الكود الأساسي الخام** — قابل للتعديل بعد `عدل الكود الاساسي`
 - **المفاتيح الخمسة** — تتولّد تلقائياً وتتبدّل كل ٢٤ ساعة
 - **البرامج المنشورة** — رابط مباشر + مفتاح API مستقل لكل برنامج
 - **مكتبة الصور والفيديو** — عرض وحذف
+- **النموذج النشط** — تبديل المزوّد والنموذج من الواجهة
 
 ---
 
@@ -162,22 +155,14 @@ python agent.py
 
 ---
 
-## ٧) بدائل Render
+## ٧) ملاحظات
 
-- **Fly.io**: `fly launch` ثم `fly deploy` (يقرأ `Dockerfile`)
-- **Railway**: New Project ← Deploy from GitHub (يقرأ `Dockerfile`)
-- **أي VPS**: انسخ الملفات ثم
-  ```bash
-  pip install -r requirements.txt
-  LLM_API_KEY=... PORT=80 nohup python agent.py &
-  ```
-
----
-
-## ٨) ملاحظات
-
+- **فلترة المزوّد خارج سيطرة الكود.** `safetySettings: BLOCK_NONE` هو أقصى ما
+  تسمح به واجهة Gemini العامة؛ لا يوجد مفتاح حقيقي لتعطيل الفلترة من العميل.
+  لنموذج بلا فلترة إطلاقاً استخدم نموذجاً محلياً مفتوحاً (Ollama / vLLM).
 - **مفتاح Gemini مقيد بـ HTTP referrers لن يعمل من السيرفر.** اجعله
   `IP addresses` أو `None` من Google Cloud Console ← Credentials.
 - البرامج المنشورة تُخزَّن في `DATA_DIR/apps/<slug>/` وتُخدَم من `/apps/<slug>/`.
 - لكل برنامج منشور مفتاح API مستقل: `POST /api/apps/<slug>/run`.
 - الفحوصات: `GET /health` و `GET /api/lab/state`.
+- فحص آلي في `.github/workflows/ci.yml` يعمل عند كل دفع.

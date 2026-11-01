@@ -1,0 +1,35 @@
+name: فحص الوكيل
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+      - name: فحص الصياغة
+        run: python -m py_compile agent.py
+      - name: فحص الاستيراد والمسارات
+        env:
+          LLM_API_KEY: test
+          DATA_DIR: ./ci-data
+        run: |
+          python - <<'PY'
+          import agent
+          assert agent.MAX_AGENT_STEPS == 0
+          assert agent.MAX_TOOL_OUTPUT == 0
+          assert agent.TOOL_RESULT_CHARS == 0
+          assert len(agent.build_tool_schemas()) == 22
+          assert len(agent.app.routes) == 31
+          assert len(agent.keys_view()["keys"]) == 5
+          assert len(agent.INDEX_HTML) > 10000
+          print("كل الفحوصات نجحت")
+          PY
